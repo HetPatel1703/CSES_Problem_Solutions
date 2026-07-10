@@ -1,0 +1,368 @@
+/**
+ *    author:  "Het Pethani"
+ *    created: 09.07.2026 20:17:10
+**/
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <array>
+#include <deque>
+#include <list>
+#include <forward_list>
+#include <queue>
+#include <stack>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <string>
+#include <cstring>
+#include <algorithm>
+#include <numeric>
+#include <functional>
+#include <utility>
+#include <tuple>
+#include <bitset>
+#include <cmath>
+#include <complex>
+#include <random>
+#include <chrono>
+#include <limits>
+#include <climits>
+#include <cfloat>
+#include <cassert>
+#include <fstream>
+#include <sstream>
+#include <iterator>
+#include <exception>
+#include <stdexcept>
+#include <type_traits>
+#include <memory>
+#include <optional>
+#include <variant>
+#include <any>
+#include <filesystem>
+using namespace std;
+ 
+// ==================== MACROS ====================
+#define Code_ ios_base::sync_with_stdio(false);
+#define By_ cin.tie(NULL);
+#define HP cout.tie(NULL);
+
+#define int long long
+#define ll long long
+#define lld long double
+#define vll vector<ll>
+#define vvll vector<vll>
+#define vvvll vector<vvll>
+#define vvvvll vector<vvvll>
+#define vpll vector<pair<ll, ll>>
+#define pll pair<ll, ll>
+#define pb push_back
+#define ff first
+#define ss second
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define sz(v) (int)v.size()
+#define frf(i, a, b) for (auto i = a; i < b; i++)
+#define frfg(i, a, b, g) for (auto i = a; i < b; i+=g)
+#define rfrf(i, a, b) for (auto i = a; i >= b; i--)
+#define rfrfg(i, a, b, g) for (auto i = a; i >= b; i-=g)
+ 
+const lld pi = 3.141592653589793238;
+const ll INF = 4e18;
+const ll NEG = -4e18;
+const ll MOD = 1e9 + 7;
+const ll MOD2 = 998244353;
+ 
+// ==================== MATH FUNCTIONS ====================
+ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a % b); }
+ll lcm(ll a, ll b) { return (a / gcd(a, b)) * b; }
+ll extgcd(ll a, ll b, ll &x, ll &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    ll x1, y1;
+    ll g = extgcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - (a / b) * y1;
+    return g;
+}
+
+ll mod_add(ll a, ll b, ll m = MOD) { return (a + b) % m; }
+ll mod_sub(ll a, ll b, ll m = MOD) { return (a - b + m) % m; }
+ll mod_mul(ll a, ll b, ll m = MOD) { return (a * b) % m; }
+ll mod_pow(ll a, ll b, ll m = MOD){
+    ll res = 1;
+    while (b){
+        if (b & 1)
+            res = mod_mul(res, a, m);
+        a = mod_mul(a, a, m);
+        b >>= 1;
+    }
+    return res;
+}
+ll mod_inv(ll a, ll m = MOD) { return mod_pow(a, m - 2, m); }
+ll mod_div(ll a, ll b, ll m = MOD){return mod_mul(a, mod_inv(b, m), m); }
+ 
+bool isPrime(ll n){
+    if (n <= 1)return false;
+    if (n <= 3)return true;
+    if (n % 2 == 0 || n % 3 == 0)return false;
+    for (ll i = 5; i * i <= n; i += 6)
+        if (n % i == 0 || n % (i + 2) == 0)return false;
+    return true;
+}
+bool isPowerOfTwo(ll n) { return n && !(n & (n - 1)); }
+bool isPerfectSquare(ll x){
+    ll s = sqrt(x);
+    return s * s == x;
+}
+ll fact(ll n){
+    ll res = 1;
+    frf(i, 2, n + 1) res = mod_mul(res, i);
+    return res;
+}
+ll nCr(ll n, ll r){
+    if (r > n)return 0;
+    if (r == 0 || r == n)return 1;
+    ll res = 1;
+    r = min(r, n - r);
+    frf(i, 0, r){
+        res = mod_mul(res, n - i);
+        res = mod_div(res, i + 1);
+    }
+    return res;
+}
+// ----- DIVISORS & FACTORIZATION -----
+vll getDivisors(ll n) {
+    vll divs;
+    for (ll i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            divs.pb(i);
+            if (i * i != n) divs.pb(n / i);
+        }
+    }
+    sort(all(divs));
+    return divs;
+}
+vll getPrimeDivisors(ll n) {
+    vll factors;
+    for (ll i = 2; i * i <= n; i++) {
+        while (n % i == 0) {
+            factors.pb(i);
+            n /= i;
+        }
+    }
+    if (n > 1) factors.pb(n);
+    return factors;
+}
+
+vector<int> divisorCount(int MAX) {
+    vector<int> divs(MAX + 1, 0);
+
+    for (int i = 1; i <= MAX; i++) {
+        for (int j = i; j <= MAX; j += i) {
+            divs[j]++;
+        }
+    }
+    return divs;
+}
+ 
+// ==================== SIEVE ====================
+const int MAXN = 10000005;
+vector<bool> sievePrime(MAXN, true);
+vector<int> primes;
+ 
+void sieve() {
+    sievePrime[0] = sievePrime[1] = false;
+    for (int i = 2; i < MAXN; i++) {
+        if (sievePrime[i]) {
+            primes.push_back(i);
+            for (int j = i * 2; j < MAXN; j += i) {
+                sievePrime[j] = false;
+            }
+        }
+    }
+}
+
+const int MAXA = 500000;
+int spf[MAXA + 1];
+void build_spf(){
+    for(int i=2;i<=MAXA;i++){
+        if(!spf[i]){
+            for(int j=i;j<=MAXA;j+=i){
+                if(!spf[j])spf[j]=i;
+            }
+        }
+    }
+}
+ 
+#define SET_BIT(n, k)     ((n) | (1LL << (k)))
+#define CLEAR_BIT(n, k)   ((n) & ~(1LL << (k)))
+#define TOGGLE_BIT(n, k)  ((n) ^ (1LL << (k)))
+#define CHECK_BIT(n, k)   (((n) >> (k)) & 1)
+#define LSB(n)            ((n) & -(n))
+#define IS_POWER_OF_2(n)  ((n) > 0 && ((n) & ((n) - 1)) == 0)
+#define CLEAR_LSB(n)      ((n) & ((n) - 1)) 
+#define COUNT_SET_BITS(n) (__builtin_popcountll(n)) 
+#define COUNT_LEAD_ZEROS(n) (__builtin_clzll(n)) 
+#define COUNT_TRAIL_ZEROS(n) (__builtin_ctzll(n)) 
+#define PARITY(n)         (__builtin_parityll(n)) 
+
+int ask(int l,int r)
+{
+    cout<<'?'<<" "<<l<<" "<<r<<endl;
+    ll n;cin>>n;
+    return n;
+}
+int DigitSum(ll n){
+    int s=0;
+    while(n){
+        s+=n%10;
+        n/=10;
+    }return s;
+}
+
+// ==================== OUTPUT MACROS ====================
+#define PY cout << "YES\n"
+#define py cout << "Yes\n"
+#define PN cout << "NO\n"
+#define pn cout << "No\n"
+#define pm cout << "-1\n"
+#define sp(x) cout<<fixed<<setprecision(x)
+#define oe(x) cout << x << "\n"
+#define oe2(x, y) cout << x << " " << y << "\n"
+#define oe3(x, y, z) cout << x << " " << y << " " << z << "\n"
+#define oe4(a, b, c, d) cout << a << " " << b << " " << c <<" "<<d<<"\n"
+#define o(x) cout << x << " "
+#define o2(x, y) cout << x << " " << y << " "
+#define o3(x, y, z) cout << x << " " << y << " " << z << " "
+#define o4(a, b, c, d) cout << a << " " << b << " " << c << " " <<d <<" "
+#define nl cout << "\n"
+const int dx4[] = {-1, 1, 0, 0};
+const int dy4[] = {0, 0, -1, 1};
+const int dx8[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+const int dy8[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+ 
+// ==================== INPUT MACROS ====================
+#define i1(a) \
+    ll a;     \
+    cin >> a
+#define i2(a, b) \
+    ll a, b;     \
+    cin >> a >> b
+#define i3(a, b, c) \
+    ll a, b, c;     \
+    cin >> a >> b >> c
+#define i4(a, b, c, d) \
+    ll a, b, c, d;     \
+    cin >> a >> b >> c >> d
+#define i5(a, b, c, d, e) \
+    ll a, b, c, d, e;     \
+    cin >> a >> b >> c >> d >> e
+ 
+#define s1(a) \
+    string a; \
+    cin >> a
+ 
+#define v1(v,n) \
+    vll v(n); \
+    frf(i, 0, n) cin >> v[i]
+#define v2(v,n, m)         \
+    vvll v(n, vll(m));   \
+    frf(i, 0, n)         \
+        frf(j, 0, m)     \
+            cin >> v[i][j]
+
+
+struct Range {
+    int l, r, id;
+};
+
+struct BIT {
+    int n;
+    vector<int> bit;
+
+    BIT(int n) {
+        this->n = n;
+        bit.assign(n + 1, 0);
+    }
+
+    void add(int idx, int val) {
+        while (idx <= n) {
+            bit[idx] += val;
+            idx += idx & (-idx);
+        }
+    }
+
+    int sum(int idx) {
+        int ans = 0;
+        while (idx > 0) {
+            ans += bit[idx];
+            idx -= idx & (-idx);
+        }
+        return ans;
+    }
+};
+
+void solve(){
+    int n;
+    cin >> n;
+    vector<Range> a(n);
+    vector<int> rights;
+
+    for (int i = 0; i < n; i++) {
+        cin >> a[i].l >> a[i].r;
+        a[i].id = i;
+        rights.push_back(a[i].r);
+    }
+
+    // Coordinate compression
+    sort(all(rights));
+    rights.erase(unique(all(rights)), rights.end());
+
+    for (auto &x : a) {
+        x.r = lower_bound(all(rights), x.r) - rights.begin() + 1;
+    }
+
+    // Sort: left increasing, right decreasing
+    sort(all(a), [](const Range &A, const Range &B) {
+        if (A.l == B.l) return A.r > B.r;
+        return A.l < B.l;
+    });
+
+    vector<int> contains(n), contained(n);
+
+    BIT bit(rights.size());
+
+    for (int i = n - 1; i >= 0; i--) {
+        contains[a[i].id] = bit.sum(a[i].r);
+        bit.add(a[i].r, 1);
+    }
+
+    bit = BIT(rights.size());
+    int total = 0;
+
+    for (int i = 0; i < n; i++) {
+        contained[a[i].id] = total - bit.sum(a[i].r - 1);
+        bit.add(a[i].r, 1);
+        total++;
+    }
+
+    for (int i = 0; i < n; i++) o(contains[i]);
+    nl;
+    for (int i = 0; i < n; i++) o(contained[i]);
+    nl;
+}
+ 
+signed main(){
+    Code_ By_ HP;
+    // int t; cin >> t;
+    int t = 1;  
+    while(t--){
+        solve();
+    }
+}
