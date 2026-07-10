@@ -32,7 +32,18 @@ CSES_Problem_Solutions/
 ├── Mathematics/
 ├── String Algorithms/
 ├── Geometry/
-└── Advanced Techniques/
+├── Advanced Techniques/
+├── Sliding Window Problems/
+├── Interactive Problems/
+├── Bitwise Operations/
+├── Construction Problems/
+├── Advanced Graph Problems/
+├── Counting Problems/
+├── Additional Problems I/
+├── Additional Problems II/
+│
+└── README.md
+
 ```
 
 ## 🎯 Objectives
