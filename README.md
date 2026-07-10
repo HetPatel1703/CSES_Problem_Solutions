@@ -11,6 +11,12 @@ This repository contains my solutions to problems from the **CSES Problem Set**,
 * Competitive Programmer
 * Language :- C++ 
 
+## 🌐 Profiles
+
+- **LeetCode:** https://leetcode.com/u/hetpethani17/
+- **Codeforces:** https://codeforces.com/profile/hetpethani17
+- **GitHub:** https://github.com/HetPatel1703
+
 ## 📚 About the Repository
 
 * ✅ Solutions are written in **C++**.
