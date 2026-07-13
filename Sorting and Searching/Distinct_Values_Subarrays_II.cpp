@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
 // ==================== MACROS ====================
 #define Code_ ios_base::sync_with_stdio(false);
 #define By_ cin.tie(NULL);
