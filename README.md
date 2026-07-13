@@ -24,33 +24,6 @@ This repository contains my solutions to problems from the **CSES Problem Set**,
 * ✅ Every solution is accepted on the CSES Online Judge.
 * ✅ The repository is continuously updated as I solve more problems.
 
-## 📂 Repository Structure
-
-```text
-CSES_Problem_Solutions/
-│
-├── Introductory Problems/
-├── Sorting and Searching/
-├── Dynamic Programming/
-├── Graph Algorithms/
-├── Range Queries/
-├── Tree Algorithms/
-├── Mathematics/
-├── String Algorithms/
-├── Geometry/
-├── Advanced Techniques/
-├── Sliding Window Problems/
-├── Interactive Problems/
-├── Bitwise Operations/
-├── Construction Problems/
-├── Advanced Graph Problems/
-├── Counting Problems/
-├── Additional Problems I/
-├── Additional Problems II/
-│
-└── README.md
-
-```
 
 ## 🎯 Objectives
 
