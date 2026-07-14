@@ -116,7 +116,6 @@ ll mod_pow(ll a, ll b, ll m = MOD){
 }
 ll mod_inv(ll a, ll m = MOD) { return mod_pow(a, m - 2, m); }
 ll mod_div(ll a, ll b, ll m = MOD){return mod_mul(a, mod_inv(b, m), m); }
- 
 bool isPrime(ll n){
     if (n <= 1)return false;
     if (n <= 3)return true;
